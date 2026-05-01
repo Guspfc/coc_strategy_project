@@ -170,18 +170,6 @@ with col2:
         st.cache_data.clear()
         st.rerun()
 
-with st.expander("📖 Ver as regras da estratégia da guerra"):
-    st.markdown("""
-    **1º Ataque:** Espelho + 2 posições abaixo.
-    Se a base já tiver 3⭐, tenta a próxima de baixo; se todas abaixo estiverem fechadas, sobe procurando alvo.
-
-    **2º Ataque:** Oponente de baixo pra cima priorizando:
-    Mesmo CV do seu (mais pra baixo) → CV inferior → CV superior.
-
-    **Perfect War:** Ataque livre por bônus!
-    """)
-st.markdown("<br>", unsafe_allow_html=True)
-
 # ── Stats Row ──
 total_stars = sum(opp_stars.values())
 max_stars = len(opp_stars) * 3
