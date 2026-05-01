@@ -31,7 +31,7 @@ HEADERS = {
 def fetch_war_data(clan_tag: str) -> dict:
     """Busca os dados da guerra atual do clã."""
     encoded_tag = clan_tag.replace("#", "%23")
-    url = f"https://api.clashofclans.com/v1/clans/{encoded_tag}/currentwar"
+    url = f"https://cocproxy.royaleapi.dev/v1/clans/{encoded_tag}/currentwar"
     response = requests.get(url, headers=HEADERS)
     response.raise_for_status()
     data = response.json()

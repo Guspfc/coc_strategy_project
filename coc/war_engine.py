@@ -29,7 +29,8 @@ HEADERS = {"Authorization": f"Bearer {API_KEY}", "Accept": "application/json"}
 
 
 def fetch_war_data(clan_tag: str = CLAN_TAG) -> dict:
-    url = f"https://api.clashofclans.com/v1/clans/{clan_tag}/currentwar"
+    encoded = clan_tag.replace("#", "%23")
+    url = f"https://cocproxy.royaleapi.dev/v1/clans/{encoded}/currentwar"
     r = requests.get(url, headers=HEADERS)
     r.raise_for_status()
     data = r.json()
