@@ -152,31 +152,35 @@ except Exception as e:
     st.error(f"Erro ao buscar dados da guerra: {e}")
     st.stop()
 
-# ── Sidebar ──
-with st.sidebar:
-    st.markdown("### ⚔️ Selecione o Jogador")
-    player_options = {
-        f"#{int(r['map_position']):02d} — {r['name']} (TH{r['townhall_level']})": r["tag"]
-        for _, r in df_clan.iterrows()
-    }
-    selected_label = st.selectbox("Jogador", list(player_options.keys()))
+# ── Controles Principais ──
+st.markdown("### ⚔️ Qual jogador é você?")
+col1, col2 = st.columns([3, 1])
+
+player_options = {
+    f"#{int(r['map_position']):02d} — {r['name']} (TH{r['townhall_level']})": r["tag"]
+    for _, r in df_clan.iterrows()
+}
+
+with col1:
+    selected_label = st.selectbox("Jogador", list(player_options.keys()), label_visibility="collapsed")
     selected_tag = player_options[selected_label]
 
-    if st.button("🔄 Atualizar dados", use_container_width=True):
+with col2:
+    if st.button("🔄 Atualizar", use_container_width=True):
         st.cache_data.clear()
         st.rerun()
 
-    st.markdown("---")
-    st.markdown("### 📖 Estratégia")
+with st.expander("📖 Ver as regras da estratégia da guerra"):
     st.markdown("""
     **1º Ataque:** Espelho + 2 posições abaixo.
-    Se 3⭐, desce; se tudo abaixo fechado, sobe.
+    Se a base já tiver 3⭐, tenta a próxima de baixo; se todas abaixo estiverem fechadas, sobe procurando alvo.
 
-    **2º Ataque:** Mesmo TH mais abaixo →
-    TH inferior → TH superior (de baixo pra cima).
+    **2º Ataque:** Oponente de baixo pra cima priorizando:
+    Mesmo CV do seu (mais pra baixo) → CV inferior → CV superior.
 
     **Perfect War:** Ataque livre por bônus!
     """)
+st.markdown("<br>", unsafe_allow_html=True)
 
 # ── Stats Row ──
 total_stars = sum(opp_stars.values())
