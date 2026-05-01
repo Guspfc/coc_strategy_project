@@ -9,11 +9,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.getenv("COC_API_KEY")
-CLAN_TAG = os.getenv("COC_CLAN_TAG", "#PLV2VQQP")
+
+def _get_secret(key: str, default=None):
+    """Tenta ler do Streamlit secrets primeiro, depois do ambiente (.env)."""
+    try:
+        import streamlit as st
+        return st.secrets.get(key, os.getenv(key, default))
+    except Exception:
+        return os.getenv(key, default)
+
+
+API_KEY = _get_secret("COC_API_KEY")
+CLAN_TAG = _get_secret("COC_CLAN_TAG", "#PLV2VQQP")
 
 if not API_KEY:
-    raise RuntimeError("COC_API_KEY não definida. Crie um arquivo .env com sua chave.")
+    raise RuntimeError("COC_API_KEY não definida. Configure em Streamlit Secrets ou .env.")
 
 HEADERS = {"Authorization": f"Bearer {API_KEY}", "Accept": "application/json"}
 
