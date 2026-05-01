@@ -72,9 +72,16 @@ html, body, [class*="st-"] { font-family: 'Inter', sans-serif; }
 .star-full { color: #ffd200; }
 .star-empty { color: #555; }
 
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .war-table {
     width: 100%; border-collapse: separate; border-spacing: 0;
     font-size: 0.88rem; color: #ddd;
+    min-width: 600px; /* Força scroll horizontal no mobile */
 }
 .war-table th {
     background: rgba(255,210,0,0.12); color: #ffd200;
@@ -91,6 +98,24 @@ html, body, [class*="st-"] { font-family: 'Inter', sans-serif; }
 
 .stat-num { font-size: 2rem; font-weight: 900; color: #ffd200; }
 .stat-label { font-size: 0.8rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ── Mobile Responsiveness ── */
+@media (max-width: 768px) {
+    .title-block h1 { font-size: 2rem; }
+    .title-block p { font-size: 0.9rem; }
+    
+    .card, .target-card, .bonus-card, .done-card { 
+        padding: 1.2rem; 
+    }
+    
+    .target-card .value { font-size: 1.3rem; }
+    .stat-num { font-size: 1.5rem; }
+    .stat-label { font-size: 0.7rem; }
+    
+    .war-table th, .war-table td {
+        padding: 0.5rem;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -245,11 +270,14 @@ for _, our in df_clan.iterrows():
     </tr>"""
 
 st.markdown(f"""
+<div class="table-responsive">
 <table class="war-table">
 <thead><tr>
     <th style="text-align:center">#</th><th>Nosso Clã</th><th style="text-align:center">TH</th>
     <th style="text-align:center">ATK</th><th>Adversário</th><th style="text-align:center">⭐</th>
 </tr></thead>
 <tbody>{rows_html}</tbody>
-</table></div>
+</table>
+</div>
+</div>
 """, unsafe_allow_html=True)
